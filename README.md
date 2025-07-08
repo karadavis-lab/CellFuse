@@ -4,6 +4,7 @@
 proteomics data integration using deep contrastive learning.
 
 ------------------------------------------------------------------------
+![CellFuse workflow](figures/Figure1_v2.png)
 
 ## Python Environment Setup (Required)
 

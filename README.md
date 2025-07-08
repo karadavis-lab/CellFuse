@@ -44,7 +44,7 @@ CellFuse requires data in following formate
     # ├── Predicted_Data/Saved_model  (Folder for saving trained CellFuse models)
       
       
-    ### create this folders #####
+    ### Lets create these folders #####
       
     dir.create("Reference_Data", showWarnings = FALSE)
     dir.create("Query_Data", showWarnings = FALSE)

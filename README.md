@@ -63,7 +63,7 @@ Data Preparation
     write_csv(validation_data[,c(common_cols)], "CyTOF_val.csv")
 
 
-Train the CellFuse model using Reference cell types
+Stage 1 (Model Training): Train the CellFuse model using Reference cell types
 
     TrainModel(dataset_name = "CyTOF",
       data_dir = "path/to/reference_data/",save_path = "path/to/save_model/",
@@ -72,7 +72,7 @@ Train the CellFuse model using Reference cell types
       patience = 5,val_step = 5,output_dim = 8,
       dropout_prob = 0.7,activation_function = "leaky_relu",alpha = 0.01)
 
-Use trained CellFuse model to predict Query cell types
+Stage 2 (Cell type Prediction): Use trained CellFuse model to predict Query cell types
 
     PredictCells(dataset_name = "CyTOF",data_dir = "path/to/reference_data/",
       test_data_dir = "path/to/query_data/",
@@ -82,7 +82,7 @@ Use trained CellFuse model to predict Query cell types
       knn_k = 5,output_dim = 8,dropout_prob = 0.5,activation_function = "leaky_relu")
 
 
-Integrate query cell types with reference cell types
+Stage 3 (Data Integration): Integrate query cell types with reference cell types
 
     corrected_data <- IntegrateData(
       ref_path="Reference_Data/CyTOF_train.csv",query_path="Query_Data/CITEseq_test.csv",

@@ -1,8 +1,3 @@
----
-title: "CellFuse"
-output: html_document
----
-
 # CellFuse
 
 **CellFuse** is an R package for multimodal single-cell and spatial proteomics data integration using deep contrastive learning and quantile normalization.

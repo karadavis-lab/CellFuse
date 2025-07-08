@@ -4,7 +4,7 @@
 proteomics data integration using deep contrastive learning.
 
 ------------------------------------------------------------------------
-<img src="figures/Figure1_v2.png" width="800" height="700"/>
+<img src="figures/Figure1_v2.png" width="800" height="1200"/>
 
 ## Python Environment Setup (Required)
 

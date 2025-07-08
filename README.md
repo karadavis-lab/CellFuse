@@ -1,7 +1,6 @@
 # CellFuse
 
-**CellFuse** is an R package for multimodal single-cell and spatial
-proteomics data integration using deep contrastive learning.
+**CellFuse** is an R package for multimodal single-cell and spatial proteomics data integration using deep contrastive learning. Single-cell and spatial proteomic technologies capture complementary biological information, yet no single platform can measure all modalities within the same cell. Most existing integration methods such as Seurat and Harmony are optimized for transcriptomic data and rely on a large set of shared, strongly linked features, an assumption that often fails for low-dimensional proteomic modalities. We present CellFuse, a deep learning-based, modality-agnostic integration framework designed specifically for settings with limited feature overlap. CellFuse leverages supervised contrastive learning to learn a shared embedding space, enabling accurate cell type prediction and seamless integration across modalities and experimental conditions.
 
 ------------------------------------------------------------------------
 <img src="figures/Figure1_v2.png" width="800" height="1200"/>
@@ -31,7 +30,6 @@ Before using `CellFuse`, you must configure Python with required packages.
     devtools::install("AbhivKoladiya/CellFuse")
     library(CellFuse)
 
-
 CellFuse requires data in following formate
 
     # CellFuseProject/
@@ -48,7 +46,8 @@ CellFuse requires data in following formate
     dir.create("Predicted_Data", showWarnings = FALSE)
     dir.create("Predicted_Data/Saved_model", showWarnings = FALSE)
 
-Data Preparation
+
+### Data Preparation
 
     ## first split your reference data in 70/30 %
     RefenenceData <- read.csv("Reference_Data/CyTOF.csv")
@@ -63,7 +62,7 @@ Data Preparation
     write_csv(validation_data[,c(common_cols)], "CyTOF_val.csv")
 
 
-Stage 1 (Model Training): Train the CellFuse model using Reference cell types
+### Stage 1 (Model Training): Train the CellFuse model using Reference cell types
 
     TrainModel(dataset_name = "CyTOF",
       data_dir = "path/to/reference_data/",save_path = "path/to/save_model/",
@@ -72,7 +71,7 @@ Stage 1 (Model Training): Train the CellFuse model using Reference cell types
       patience = 5,val_step = 5,output_dim = 8,
       dropout_prob = 0.7,activation_function = "leaky_relu",alpha = 0.01)
 
-Stage 2 (Cell type Prediction): Use trained CellFuse model to predict Query cell types
+### Stage 2 (Cell type Prediction): Use trained CellFuse model to predict Query cell types
 
     PredictCells(dataset_name = "CyTOF",data_dir = "path/to/reference_data/",
       test_data_dir = "path/to/query_data/",
@@ -82,8 +81,13 @@ Stage 2 (Cell type Prediction): Use trained CellFuse model to predict Query cell
       knn_k = 5,output_dim = 8,dropout_prob = 0.5,activation_function = "leaky_relu")
 
 
-Stage 3 (Data Integration): Integrate query cell types with reference cell types
+### Stage 3 (Data Integration): Integrate query cell types with reference cell types
 
     corrected_data <- IntegrateData(
       ref_path="Reference_Data/CyTOF_train.csv",query_path="Query_Data/CITEseq_test.csv",
       Celltype_col="cluster.orig")
+
+
+## Vignette
+
+Check out this [vignette](doc/CellFuseQuickstart.html) for integration of CyTOF and CITESeq data.      

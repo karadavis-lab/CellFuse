@@ -10,7 +10,7 @@ This work has been led by Abhishek Koladiya from [Kara Davis Lab](https://kldavi
 ------------------------------------------------------------------------
 <img src="figures/Figure1_v2.png" width="800" height="1200"/>
 
-## Python Environment Setup (Required)
+### Python Environment Setup (Required)
 
 Before using `CellFuse`, you must configure Python with required packages.
 

@@ -440,7 +440,7 @@ def predict_cells(dataset_name, data_dir, test_data_dir, test_data, model_dir, d
     y_predict_proba_test = knn.predict_proba(emb_X_test)
 
     # Assign predictions and probabilities
-    cell_test["prediction"] = [reverse_label_map[pred] for pred in y_predict_test]
+    cell_test[cluster_column] = [reverse_label_map[pred] for pred in y_predict_test]
     cell_test["Prediction_Probability"] = y_predict_proba_test.max(axis=1)
 
     for i, class_name in enumerate(knn.classes_):

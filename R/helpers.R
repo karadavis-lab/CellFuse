@@ -86,8 +86,9 @@ IntegrateData <- function(ref_path, query_path,Celltype_col) {
   query_data <- read.csv(query_path)
   query_data$batch <- "QueryPreintegration"
   
+  common_cols <- intersect(colnames(refdata),colnames(query_data))
   # Combine data
-  data <- rbind(refdata, query_data)
+  data <- rbind(refdata[,common_cols], query_data[,common_cols])
   data$index <- seq_len(nrow(data))
   
   # Check for required celltype column

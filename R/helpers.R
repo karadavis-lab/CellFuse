@@ -30,7 +30,7 @@ Normalize_function <- function(target, reference) {
       }
     }
   } else {
-    ref_subset <- reference[sample(nrow(reference), nrow(target), replace = FALSE), ]
+    ref_subset <- reference[sample(nrow(reference), nrow(target), replace = FALSE),, drop = FALSE]
     for (j in 1:ncol(target)) {
       target_sig_Normalize_function[, j] <- sort(ref_subset[, j])[rank(target[, j])]
     }

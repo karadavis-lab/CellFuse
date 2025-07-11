@@ -385,7 +385,7 @@ def trainModel(dataset_name, data_dir, save_path, device, lr, margin, bs, epoch,
     plt.tight_layout()
     plt.show()
 
-def predict_cells(dataset_name, data_dir, test_data_dir, test_data, model_dir, device, lr, margin, bs, epoch, knn_k, output_dim, dropout_prob, activation_function, cluster_column='cluster.orig', output_dir=None):
+def predict_cells(dataset_name, data_dir, test_data_dir, test_data, model_dir, model_date, device, lr, margin, bs, epoch, knn_k, output_dim, dropout_prob, activation_function, cluster_column='cluster.orig', output_dir=None):
     # Load training data
     train_path = f"{data_dir}/{dataset_name}_train.csv"
     cell_train = pd.read_csv(train_path)
@@ -414,8 +414,8 @@ def predict_cells(dataset_name, data_dir, test_data_dir, test_data, model_dir, d
 
     # Load model
     #train_date = datetime.now().strftime("%Y-%m-%d")
-    train_date = datetime.datetime.now().strftime("%Y-%m-%d")
-    model_info = f"{dataset_name}_{train_date}"
+    #train_date = datetime.datetime.now().strftime("%Y-%m-%d")
+    model_info = f"{dataset_name}_{model_date}"
     #model_info = f"{dataset_name}_{encoder_model}_lr-{lr}_epoch-{epoch}_batchSize-{bs}_margin-{margin}_outputDim-{output_dim}all_sample_mean"
     model_path = f"{model_dir}/{model_info}.pt"
     print(f"Loading the model: {model_path}")

@@ -57,6 +57,7 @@ TrainModel <- function(dataset_name, data_dir, save_path, device, cluster_column
 #' @param test_data_dir Path to query/test data directory
 #' @param test_data Name of the test dataset
 #' @param model_dir Path to saved model directory
+#' @param model_date Date when model was created (this helps CellFuse to load correct model)
 #' @param device 'cpu' or 'cuda'
 #' @param cluster_column Column name containing cluster labels
 #' @param lr Learning rate

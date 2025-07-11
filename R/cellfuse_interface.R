@@ -70,7 +70,7 @@ TrainModel <- function(dataset_name, data_dir, save_path, device, cluster_column
 #'
 #' @export
 PredictCells <- function(dataset_name, data_dir, test_data_dir, test_data,
-                             model_dir, device, cluster_column,
+                             model_dir, model_date, device, cluster_column,
                              lr, margin, bs, epoch,
                              knn_k, output_dim,
                              dropout_prob, activation_function) {
@@ -83,6 +83,7 @@ PredictCells <- function(dataset_name, data_dir, test_data_dir, test_data,
     test_data_dir = test_data_dir,
     test_data = test_data,
     model_dir = model_dir,
+    model_date = model_date,
     device = device,
     cluster_column = cluster_column,
     lr = lr,

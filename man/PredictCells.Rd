@@ -10,6 +10,7 @@ PredictCells(
   test_data_dir,
   test_data,
   model_dir,
+  model_date,
   device,
   cluster_column,
   lr,
@@ -32,6 +33,8 @@ PredictCells(
 \item{test_data}{Name of the test dataset}
 
 \item{model_dir}{Path to saved model directory}
+
+\item{model_date}{Path to saved model directory}
 
 \item{device}{'cpu' or 'cuda'}
 

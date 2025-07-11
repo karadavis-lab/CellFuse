@@ -34,7 +34,7 @@ PredictCells(
 
 \item{model_dir}{Path to saved model directory}
 
-\item{model_date}{Path to saved model directory}
+\item{model_date}{Date when model was created (this helps CellFuse to load correct model)}
 
 \item{device}{'cpu' or 'cuda'}
 

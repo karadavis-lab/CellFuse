@@ -85,6 +85,7 @@ IntegrateData <- function(ref_path, query_path,Celltype_col) {
   
   query_data <- read.csv(query_path)
   query_data$batch <- "QueryPreintegration"
+  names(query_data)[names(query_data) == "CellFuse_Pred"] <- Celltype_col
   
   common_cols <- intersect(colnames(refdata),colnames(query_data))
   # Combine data

@@ -77,7 +77,6 @@ NormalizeData <- function(ct1_rep1_i_sig, file_ref_sig) {
 #' @export
 IntegrateData <- function(ref_path, query_path,Celltype_col) {
   # Define fixed column name for cell type
-  Celltype_col <- Celltype_col
   
   # Load and label datasets
   refdata <- read.csv(ref_path)

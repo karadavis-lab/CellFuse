@@ -413,10 +413,7 @@ def predict_cells(dataset_name, data_dir, test_data_dir, test_data, model_dir, m
     test_markers = test_scaler.fit_transform(test_markers)
 
     # Load model
-    #train_date = datetime.now().strftime("%Y-%m-%d")
-    #train_date = datetime.datetime.now().strftime("%Y-%m-%d")
     model_info = f"{dataset_name}_{model_date}"
-    #model_info = f"{dataset_name}_{encoder_model}_lr-{lr}_epoch-{epoch}_batchSize-{bs}_margin-{margin}_outputDim-{output_dim}all_sample_mean"
     model_path = f"{model_dir}/{model_info}.pt"
     print(f"Loading the model: {model_path}")
 
@@ -440,7 +437,7 @@ def predict_cells(dataset_name, data_dir, test_data_dir, test_data, model_dir, m
     y_predict_proba_test = knn.predict_proba(emb_X_test)
 
     # Assign predictions and probabilities
-    cell_test[cluster_column] = [reverse_label_map[pred] for pred in y_predict_test]
+    cell_test["CellFuse_Pred"] = [reverse_label_map[pred] for pred in y_predict_test]
     cell_test["Prediction_Probability"] = y_predict_proba_test.max(axis=1)
 
     for i, class_name in enumerate(knn.classes_):

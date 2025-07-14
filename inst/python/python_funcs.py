@@ -385,7 +385,7 @@ def trainModel(dataset_name, data_dir, save_path, device, lr, margin, bs, epoch,
     plt.tight_layout()
     plt.show()
 
-def predict_cells(dataset_name, data_dir, test_data_dir, test_data, model_dir, model_date, device, lr, margin, bs, epoch, knn_k, output_dim, dropout_prob, activation_function, cluster_column='cluster.orig', output_dir=None):
+def predict_cells(dataset_name, data_dir, test_data_dir, test_data, model_dir, model_date, model,device, lr, margin, bs, epoch, knn_k, output_dim, dropout_prob, activation_function, cluster_column='cluster.orig', output_dir=None):
     # Load training data
     train_path = f"{data_dir}/{dataset_name}_train.csv"
     cell_train = pd.read_csv(train_path)
@@ -449,3 +449,83 @@ def predict_cells(dataset_name, data_dir, test_data_dir, test_data, model_dir, m
     output_file = os.path.join(output_dir, f"Pred_{test_data}_Ref_{model_info}.csv")
     cell_test.to_csv(output_file, index=False)
     print(f"Predictions saved to {output_file}.")
+
+def predict_cells_time(dataset_name, data_dir, test_data_dir, test_data, model_dir,model_date, device, lr, margin, bs, epoch, knn_k, output_dim, dropout_prob, activation_function, cluster_column='cluster.orig', output_dir=None):
+    # Load training data
+    train_path = f"{data_dir}/{dataset_name}_train.csv"
+    cell_train = pd.read_csv(train_path)
+    train_markers = cell_train.select_dtypes(include=[np.number]).to_numpy()
+    train_labels = cell_train[cluster_column]
+
+    train_source_labels_int = train_labels.rank(method="dense", ascending=True).astype(int) - 1
+    label_map = {label: idx for idx, label in enumerate(np.unique(train_labels))}
+    reverse_label_map = {v: k for k, v in label_map.items()}
+
+    # Load test data
+    test_path = f"{test_data_dir}/{test_data}_test.csv"
+    cell_test = pd.read_csv(test_path)
+    test_markers = cell_test.select_dtypes(include=[np.number]).to_numpy()
+
+    # Scale the data
+    train_scaler = StandardScaler()
+    train_markers = train_scaler.fit_transform(train_markers)
+
+    test_scaler = StandardScaler()
+    test_markers = test_scaler.fit_transform(test_markers)
+
+    # === START timing here
+    time_start = time.time()
+
+    # Load model
+    model_info = f"{dataset_name}_{model_date}"
+    model_path = f"{model_dir}/{model_info}.pt"
+    print(f"Loading the model: {model_path}")
+
+    model = CellClassifier(train_markers.shape[1], output_dim, dropout_prob, activation_function).to(device)
+    try:
+        model.load_state_dict(torch.load(model_path))
+    except RuntimeError:
+        model = torch.load(model_path).to(device)
+    model.eval()
+
+    # Project embeddings
+    print("Projecting embeddings...")
+    emb_X_train = project(model, train_markers, device)
+    emb_X_test = project(model, test_markers, device)
+
+    # Train KNN and predict
+    print("Fitting KNN model...")
+    knn = KNeighborsClassifier(n_neighbors=knn_k)
+    knn.fit(emb_X_train, train_source_labels_int)
+    y_predict_test = knn.predict(emb_X_test)
+    y_predict_proba_test = knn.predict_proba(emb_X_test)
+
+    # Assign predictions
+    cell_test["prediction"] = [reverse_label_map[pred] for pred in y_predict_test]
+    cell_test["Prediction_Probability"] = y_predict_proba_test.max(axis=1)
+    for i, class_name in enumerate(knn.classes_):
+        cell_test[f"probability_{reverse_label_map[class_name]}"] = y_predict_proba_test[:, i]
+
+    # === ⏱️ END timing here
+    time_end = time.time()
+    total_seconds = round(time_end - time_start, 2)
+
+    # Save timing log
+    timing_df = pd.DataFrame([{
+        "Dataset": dataset_name,
+        "TestData": test_data,
+        "StartTime": time_start,
+        "EndTime": time_end,
+        "InferenceTime_sec": total_seconds
+    }])
+    timing_log_path = os.path.join(output_dir or ".", f"prediction_timing_{model_info}.csv")
+    timing_df.to_csv(timing_log_path, index=False)
+
+    # Save predictions
+    if output_dir is None:
+        output_dir = "."
+    output_file = os.path.join(output_dir, f"Pred_{test_data}_Ref_{model_info}.csv")
+    cell_test.to_csv(output_file, index=False)
+    print(f"Predictions saved to {output_file}.")
+    print(f"Inference time: {total_seconds} seconds. Timing log saved to {timing_log_path}.")
+

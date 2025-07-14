@@ -81,44 +81,52 @@ IntegrateData <- function(ref_path, query_path,Celltype_col) {
   # Load and label datasets
   refdata <- read.csv(ref_path)
   refdata$batch <- "Reference"
-  
+
   query_data <- read.csv(query_path)
   query_data$batch <- "QueryPreintegration"
+
+  # Rename predicted column to match Celltype_col
   names(query_data)[names(query_data) == "CellFuse_Pred"] <- Celltype_col
-  
-  common_cols <- intersect(colnames(refdata),colnames(query_data))
+
+  # Identify shared columns + Celltype_col
+  common_cols <- intersect(colnames(refdata), colnames(query_data))
+  common_cols <- unique(c(common_cols, Celltype_col))  # ensure Celltype_col is retained
+
   # Combine data
-  data <- rbind(refdata[,common_cols], query_data[,common_cols])
+  data <- rbind(refdata[, common_cols], query_data[, common_cols])
+  data$batch <- c(rep("Reference", nrow(refdata)), rep("QueryPreintegration", nrow(query_data)))
   data$index <- seq_len(nrow(data))
-  
-  # Check for required celltype column
+
+  # Check if celltype column exists
   if (!(Celltype_col %in% colnames(data))) {
-    stop("Column 'Celltype_col' not found in input data.")
+    stop(paste("Column", Celltype_col, "not found in input data."))
   }
-  
-  # Automatically identify marker columns
+
+  # Identify marker columns
   exclude_cols <- c("batch", "index", Celltype_col)
   markers <- setdiff(colnames(data), exclude_cols)
   markers <- markers[sapply(data[markers], is.numeric)]
-  
+
   normalized_list <- list()
-  
+
   for (celltype in unique(data[[Celltype_col]])) {
     ref <- data[data[[Celltype_col]] == celltype & data$batch == "Reference", c(markers, "index")]
     target <- data[data[[Celltype_col]] == celltype & data$batch == "QueryPreintegration", c(markers, "index")]
-    
+
     if (nrow(ref) > 2 && nrow(target) > 0) {
       corrected <- NormalizeData(target[, markers], ref[, markers])
-      new_rows <- data.frame(corrected, Celltype = celltype, index = target$index)
+      new_rows <- data.frame(corrected, index = target$index)
+      new_rows[[Celltype_col]] <- celltype
       normalized_list[[celltype]] <- new_rows
     }
   }
-  
+
   if (length(normalized_list) == 0) return(NULL)
+
   combined <- do.call(rbind, normalized_list)
   combined <- combined[order(combined$index), ]
   combined$index <- NULL
-  
+
   return(combined)
 }
 

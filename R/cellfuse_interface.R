@@ -97,3 +97,32 @@ PredictCells <- function(dataset_name, data_dir, test_data_dir, test_data,
     activation_function = activation_function
   )
 }
+
+
+predict_cells_time <- function(dataset_name, data_dir, test_data_dir, test_data,
+                             model_dir, model_date, device, cluster_column,
+                             lr, margin, bs, epoch,
+                             knn_k, output_dim,
+                             dropout_prob, activation_function) {
+  
+  reticulate::source_python(system.file("python", "python_funcs.py", package = "CellFuse"))
+  
+  py$predict_cells_time(
+    dataset_name = dataset_name,
+    data_dir = data_dir,
+    test_data_dir = test_data_dir,
+    test_data = test_data,
+    model_dir = model_dir,
+    model_date = model_date,
+    device = device,
+    cluster_column = cluster_column,
+    lr = lr,
+    margin = margin,
+    bs = bs,
+    epoch = epoch,
+    knn_k = knn_k,
+    output_dim = output_dim,
+    dropout_prob = dropout_prob,
+    activation_function = activation_function
+  )
+}

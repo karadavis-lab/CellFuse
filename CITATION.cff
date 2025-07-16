@@ -1,0 +1,21 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: CellFuse
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Abhishek
+    family-names: Koladiya
+    name-particle: Abhishek Vallabhbhai
+    email: koladiya@stanford.edu
+    affiliation: Stanford University
+    orcid: 'https://orcid.org/0000-0002-7348-4048'
+identifiers:
+  - type: url
+    value: 'https://github.com/AbhivKoladiya/CellFuse'
+repository-code: 'https://github.com/AbhivKoladiya/CellFuse'
+license: MIT

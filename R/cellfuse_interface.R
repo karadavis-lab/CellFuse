@@ -99,6 +99,26 @@ PredictCells <- function(dataset_name, data_dir, test_data_dir, test_data,
 }
 
 
+#' Runtime calculation for predictcell() function
+#'
+#' @param dataset_name Name of the training dataset
+#' @param data_dir Path to reference data directory
+#' @param test_data_dir Path to query/test data directory
+#' @param test_data Name of the test dataset
+#' @param model_dir Path to saved model directory
+#' @param model_date Date when model was created (this helps CellFuse to load correct model)
+#' @param device 'cpu' or 'cuda'
+#' @param cluster_column Column name containing cluster labels
+#' @param lr Learning rate
+#' @param margin Margin value for contrastive loss
+#' @param bs Batch size
+#' @param epoch Number of epochs
+#' @param knn_k K for KNN classifier
+#' @param output_dim Size of embedding output
+#' @param dropout_prob Dropout probability
+#' @param activation_function Activation function name
+#'
+#' @export
 predict_cells_time <- function(dataset_name, data_dir, test_data_dir, test_data,
                              model_dir, model_date, device, cluster_column,
                              lr, margin, bs, epoch,

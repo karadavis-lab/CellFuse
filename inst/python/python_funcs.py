@@ -385,7 +385,7 @@ def trainModel(dataset_name, data_dir, save_path, device, lr, margin, bs, epoch,
     plt.tight_layout()
     plt.show()
 
-def predict_cells(dataset_name, data_dir, test_data_dir, test_data, model_dir, model_date, model,device, lr, margin, bs, epoch, knn_k, output_dim, dropout_prob, activation_function, cluster_column='cluster.orig', output_dir=None):
+def predict_cells(dataset_name, data_dir, test_data_dir, test_data, model_dir, model_date,device, lr, margin, bs, epoch, knn_k, output_dim, dropout_prob, activation_function, cluster_column='cluster.orig', output_dir=None):
     # Load training data
     train_path = f"{data_dir}/{dataset_name}_train.csv"
     cell_train = pd.read_csv(train_path)

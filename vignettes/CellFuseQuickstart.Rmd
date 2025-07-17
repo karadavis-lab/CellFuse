@@ -20,50 +20,38 @@ The CellFuse package enables reference-based integration and cell type predictio
 Before using CellFuse, users must ensure a proper Python environment is configured through the reticulate package. This section sets the Python interpreter path, creates a virtual environment, installs necessary Python dependencies (such as torch, pandas, and scikit-learn), and initializes the environment for R to communicate with Python seamlessly. These steps are essential for running the deep learning model underlying CellFuse.
 
 ```{r setup}
-
-# Set Python path manually
-Sys.setenv(RETICULATE_PYTHON = "/usr/local/Caskroom/miniforge/base/envs/r-reticulate-env/bin/python")
-
 library(reticulate)
-# Create a virtualenv (if needed)
-virtualenv_create("cellfuse_env",python = Sys.getenv("RETICULATE_PYTHON"))
-use_virtualenv("cellfuse_env", required = TRUE)
-
-# Install required packages
-virtualenv_install("cellfuse_env", packages = c("torch", "pandas", "scikit-learn", "matplotlib", "seaborn"))
+use_condaenv("myenv", required = TRUE)
 py_config()
-
 ```
 
 Now let's prepare CellFuse model using Reference CyTOF data
 
 ```{r TrainModel, message=FALSE, warning=FALSE, fig.align='center'}
 library(CellFuse)
+
+setwd("/CellFuse")
 #### Train model using Levine32 data ####
 TrainModel(dataset_name="Levine32",
-           data_dir="~/Meta/Reference_Data/", 
-           save_path="~/Meta/Predicted_Data/",
+           data_dir="./Meta/Reference_Data", 
+           save_path="./Meta/Predicted_Data",
            device="cpu",cluster_column = "cluster.orig", 
            lr=as.numeric(0.0009), margin=as.numeric(0.8), bs=as.integer(256), epoch=as.integer(50),
            k=as.integer(5), min_delta=as.numeric(0.01), patience=as.integer(5), val_step=as.integer(5),
            output_dim=as.integer(8), dropout_prob=as.numeric(0.7),
            activation_function='leaky_relu',alpha=as.numeric(0.01))
 ```
-```{r, training outpur}
-knitr::include_graphics("doc/Training_output.png")
-```
-
 
 Predict cells in query CITE-Seq data
 ```{r PredictCells, message=FALSE, warning=FALSE, fig.align='center'}
 ### Predict CITEseq data ###
-setwd("~/Meta/Predicted_Data/")
+setwd("./Meta/Predicted_Data/")
 PredictCells(dataset_name="Levine32",
-             data_dir="~/Meta/Reference_Data",
-             test_data_dir="~/Meta/Query_Data/", 
+             data_dir="../../Meta/Reference_Data",
+             test_data_dir="../../Meta/Query_Data/", 
              test_data="CITEseq",
-             model_dir="~/Meta/Predicted_Data/Saved_model",
-             model_date = "2024-06-17",
+             model_dir="../../Meta/Predicted_Data/Saved_model",
+             model_date = "2025-07-17",
              device="cpu",cluster_column='cluster.orig',
              lr=as.numeric(0.001),margin=0.5,bs=as.integer(256), epoch=as.integer(50),
              knn_k=as.integer(5),output_dim=as.integer(8),
@@ -74,9 +62,9 @@ Finally, integrate reference and query data
 
 ```{r IntegrateData,message=FALSE, warning=FALSE, fig.align='center'}
 # Integrate query data with reference
-correctd_data= IntegrateData(
-  ref_path="~/Meta/Reference_Data/Levine32_train.csv",
-  query_path="~/Meta/Query_Data/CITEseq_test.csv",
+corrected_data= IntegrateData(
+  ref_path="../../Meta/Reference_Data/Levine32_train.csv",
+  query_path="../../Meta/Query_Data/CITEseq_test.csv",
   Celltype_col="cluster.orig"
 )
 ```
@@ -85,16 +73,15 @@ Create pre- and post integration dataframes and run tSNE on both
 
 ```{r, post integration}
 ## Merge pre-integrated data ##
-ref= read.csv("~/Meta/Reference_Data/Levine32_train.csv")
-query=read.csv("~/Meta/Query_Data/CITEseq_test.csv")
+ref= read.csv("../../Meta/Reference_Data/Levine32_train.csv")
+query=read.csv("../../Meta/Query_Data/CITEseq_test.csv")
+
 Preintegration= rbind.data.frame(cbind(ref,batch=rep("Reference (CyTOF)",times=dim(ref)[1])),
-                           cbind(query[,1:12],cluster.orig=correctd_data$Celltype,
-                                 batch=rep("Query (CITEseq)",times=dim(query)[1])))
+                           cbind(query,batch=rep("Query (CITEseq)",times=dim(query)[1])))
 
 ## merge post-integration ##
 PostIntegration= rbind.data.frame(cbind(ref,batch=rep("Reference (CyTOF)",times=dim(ref)[1])),
-                           cbind(correctd_data[,1:12],cluster.orig=correctd_data$Celltype,
-                                 batch=rep("Query (CITEseq)",times=dim(correctd_data)[1])))
+                           cbind(corrected_data,batch=rep("Query (CITEseq)",times=dim(correctd_data)[1])))
 
 ## Run tSNE ###
 library(Rtsne)

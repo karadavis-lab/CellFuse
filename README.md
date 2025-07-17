@@ -13,36 +13,14 @@ This work has been led by Abhishek Koladiya from [Kara Davis Lab](https://kldavi
 ### Python Environment Setup (Required)
 
 Before using `CellFuse`, you must configure Python with required packages.
-Step 1: Install System Dependencies
-macOS (with Homebrew)
+```shell
+conda create -n myenv python=3.10 -y
+conda activate myenv
 
-    # Install Homebrew (if not already installed)
-    if ! command -v brew &> /dev/null; then
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    fi
-    
-    # Install required system libraries
-    brew install gcc pkg-config icu4c udunits cmake abseil
-    
-    # Set environment variables (make it general)
-    export HOMEBREW_PREFIX=$(brew --prefix)
-    export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/icu4c/lib/pkgconfig"
-    
-Windows
-Use RTools: https://cran.r-project.org/bin/windows/Rtools/
-Use Anaconda or Miniforge to manage Python and dependencies No need for brew or manual installation in most cases
-CellFuse requires data in following formate
-
-Step 2: Set Up Conda Environment
-
-    # Create conda environment
-    conda create -n myenv python=3.10 -y
-    conda activate myenv
-    
-    # Install Python dependencies
-    pip install torch pandas scikit-learn matplotlib seaborn
-    
-Step 3: R Script to Use the Environment
+# Install Python dependencies
+conda install pytorch pandas scikit-learn matplotlib seaborn
+```
+R Script to Use the Environment
 
     # Load and install R dependencies
     required_packages <- c("reticulate", "remotes")
@@ -53,13 +31,18 @@ Step 3: R Script to Use the Environment
     
     # Use the conda environment from R
     library(reticulate)
+    
     use_condaenv("myenv", required = TRUE)
     
     # Confirm Python setup
     py_config()
     
-    ## Now install package and load it ###
-    devtools::install("AbhivKoladiya/CellFuse")
+    ## For reviwers: move to the folder where you have zip version of package ##
+    devtools::install_local("CellFuse-main.zip")
+    
+    ## when the package will be available publically ###
+    ##devtools::install("AbhivKoladiya/CellFuse")
+    
     library(CellFuse)
 
 CellFuse requires data in following formate

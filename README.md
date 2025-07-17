@@ -71,19 +71,21 @@ CellFuse requires data in following formate
 
     TrainModel(dataset_name = "CyTOF",
       data_dir = "path/to/reference_data/",save_path = "path/to/save_model/",
-      device = "cpu",cluster_column = "cluster.orig",lr = 0.0009,margin = 0.8,
-      bs = 256,epoch = 50,k = 5,min_delta = 0.01,
-      patience = 5,val_step = 5,output_dim = 8,
-      dropout_prob = 0.7,activation_function = "leaky_relu",alpha = 0.01)
+      device = "cpu",cluster_column = "cluster.orig", 
+      lr=as.numeric(0.0009), margin=as.numeric(0.8), bs=as.integer(256), epoch=as.integer(50),
+      k=as.integer(5), min_delta=as.numeric(0.01), patience=as.integer(5), val_step=as.integer(5),
+      output_dim=as.integer(8), dropout_prob=as.numeric(0.7),
+      activation_function='leaky_relu',alpha=as.numeric(0.01))
 
 ### Stage 2 (Cell type Prediction): Use trained CellFuse model to predict Query cell types
 
     PredictCells(dataset_name = "CyTOF",data_dir = "path/to/reference_data/",
       test_data_dir = "path/to/query_data/",
       test_data = "CITEseq",model_dir = "path/to/save_model/Saved_model",
-      device = "cpu",cluster_column = "cluster.orig",
-      lr = 0.001,margin = 0.5,bs = 256,epoch = 50,
-      knn_k = 5,output_dim = 8,dropout_prob = 0.5,activation_function = "leaky_relu")
+      device="cpu",cluster_column='cluster.orig',
+      lr=as.numeric(0.001),margin=0.5,bs=as.integer(256), epoch=as.integer(50),
+      knn_k=as.integer(5),output_dim=as.integer(8),
+      dropout_prob=as.numeric(0.5),activation_function='leaky_relu')
 
 
 ### Stage 3 (Data Integration): Integrate query cell types with reference cell types

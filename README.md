@@ -81,7 +81,7 @@ CellFuse requires data in following formate
 
     PredictCells(dataset_name = "CyTOF",data_dir = "path/to/reference_data/",
       test_data_dir = "path/to/query_data/",
-      test_data = "CITEseq",model_dir = "path/to/save_model/Saved_model",
+      test_data = "CITEseq",model_dir = "path/to/save_model/Saved_model",model_date="YYYY-MM-DD",
       device="cpu",cluster_column='cluster.orig',
       lr=as.numeric(0.001),margin=0.5,bs=as.integer(256), epoch=as.integer(50),
       knn_k=as.integer(5),output_dim=as.integer(8),

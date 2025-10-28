@@ -5,7 +5,7 @@
 
 **CellFuse** is an R package for multimodal single-cell and spatial proteomics data integration using deep contrastive learning. Single-cell and spatial proteomic technologies capture complementary biological information, yet no single platform can measure all modalities within the same cell. Most existing integration methods such as Seurat and Harmony are optimized for transcriptomic data and rely on a large set of shared, strongly linked features, an assumption that often fails for low-dimensional proteomic modalities. We present CellFuse, a deep learning-based, modality-agnostic integration framework designed specifically for settings with limited feature overlap. CellFuse leverages supervised contrastive learning to learn a shared embedding space, enabling accurate cell type prediction and seamless integration across modalities and experimental conditions. 
 
-This work has been led by [Abhishek Koladiya] (https://github.com/AbhivKoladiya) from [Kara Davis Lab](https://kldavislab.org/) @Stanford
+This work has been led by [Abhishek Koladiya](https://github.com/AbhivKoladiya) from [Kara Davis Lab](https://kldavislab.org/) @Stanford
 
 ------------------------------------------------------------------------
 <img src="figures/Figure1_v2.png" width="800" height="1200"/>

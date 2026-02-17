@@ -1,0 +1,24 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+docs
+# macOS
+.DS_Store
+
+# pkgdown
+docs/
+Meta/
+
+# models and outputs
+*.pt
+*.rds
+*_norm_pred_*.csv
+Predicted_Data/
+Normalized_Data/
+
+# R build
+.Rhistory
+.RData
+.Rproj.user/
+

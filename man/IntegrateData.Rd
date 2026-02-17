@@ -7,18 +7,31 @@
 IntegrateData(ref_path, query_path, Celltype_col)
 }
 \arguments{
-\item{data}{A data frame containing marker columns, a `Celltype` column, and a `batch` column}
+\item{ref_path}{Path to reference CSV file.}
 
-\item{markers}{A character vector of column names corresponding to marker features}
+\item{query_path}{Path to predicted query CSV file.}
 
-\item{ref_batch}{Character value indicating the reference batch label}
-
-\item{query_batch}{Character value indicating the query batch label}
+\item{Celltype_col}{Character. Column containing cell-type labels.}
 }
 \value{
-A data frame with quantile-normalized marker values and original `Celltype` column
+A data.frame containing normalized query marker values.
 }
 \description{
 This function normalizes query data to reference data using PCA-space
 quantile normalization, performed separately for each cell type.
+}
+\details{
+Normalization is performed separately per cell type.
+Only numeric marker columns are processed.
+}
+\examples{
+\dontrun{
+corrected <- IntegrateData(
+  ref_path = "Reference_Data/CyTOF_train.csv",
+  query_path = "Query_Data/CITEseq_test.csv",
+  Celltype_col = "cluster.orig"
+)
+}
+
+
 }

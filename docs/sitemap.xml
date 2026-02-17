@@ -1,0 +1,17 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/CellFuseQuickstart.html</loc></url>
+<url><loc>/articles/CellFuse_DataPreparation.html</loc></url>
+<url><loc>/articles/Cytof_CITESeq_DataIntegration.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/IntegrateData.html</loc></url>
+<url><loc>/reference/NormalizeData.html</loc></url>
+<url><loc>/reference/Normalize_function.html</loc></url>
+<url><loc>/reference/PredictCells.html</loc></url>
+<url><loc>/reference/TrainModel.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/predict_cells_time.html</loc></url>
+</urlset>
+

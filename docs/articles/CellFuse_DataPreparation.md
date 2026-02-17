@@ -1,0 +1,87 @@
+# CellFuse Workflow: Data Preparation and Model Execution
+
+## Project Structure
+
+CellFuse expects a standardized directory structure to organize
+reference data, query data, and model outputs. The recommended project
+layout is:
+
+``` graphql
+CellFuseProject/
+├── Reference_Data/       
+├── Query_Data/ 
+├── Predicted_Data/        # Output folder for predictions
+└── Predicted_Data/Saved_model/   # Trained CellFuse model will be saved here
+```
+
+Each dataset should be provided as a CSV file where: \* Rows correspond
+to individual cells \* Columns correspond to markers \* One column must
+contain cell type labels (e.g., cluster.orig)
+
+## Creating Project Directories
+
+You may create the required directory structure programmatically:
+
+``` r
+dir.create("Reference_Data", showWarnings = FALSE)
+dir.create("Query_Data", showWarnings = FALSE)
+dir.create("Predicted_Data", showWarnings = FALSE)
+dir.create("Predicted_Data/Saved_model", showWarnings = FALSE)
+```
+
+## Data Preparation
+
+First we will split reference data into training and validation subsets.
+
+``` r
+library(caret)
+library(readr)
+
+# Load reference dataset
+reference_data <- read.csv("Reference_Data/CyTOF.csv")
+
+# Stratified split (preserves class distribution)
+trainIndex <- createDataPartition(reference_data$cluster.orig,
+                                  p = 0.7,list = FALSE)
+
+train_data <- reference_data[trainIndex, ]
+validation_data <- reference_data[-trainIndex, ]
+
+# Save training and validation sets
+write_csv(train_data, "Reference_Data/CyTOF_train.csv")
+write_csv(validation_data, "Reference_Data/CyTOF_val.csv")
+```
+
+## CellFuse execution:
+
+### Stage 1 — Model Training: Train the CellFuse model using labeled reference cell types.
+
+``` r
+TrainModel(dataset_name = "CyTOF",
+  data_dir = "path/to/reference_data/",save_path = "path/to/save_model/",
+    device = "cpu",cluster_column = "cluster.orig", 
+    lr=as.numeric(0.0009), margin=as.numeric(0.8), bs=as.integer(256), epoch=as.integer(50),
+    k=as.integer(5), min_delta=as.numeric(0.01), patience=as.integer(5), val_step=as.integer(5),
+    output_dim=as.integer(8), dropout_prob=as.numeric(0.7),
+    activation_function='leaky_relu',alpha=as.numeric(0.01))
+```
+
+### Stage 2 (Cell type Prediction): Use trained CellFuse model to predict Query cell types
+
+``` r
+PredictCells(dataset_name = "CyTOF",data_dir = "path/to/reference_data/",
+  test_data_dir = "path/to/query_data/",
+  test_data = "CITEseq",model_dir = "path/to/save_model/Saved_model",
+  model_date="YYYY-MM-DD",device="cpu",cluster_column='cluster.orig',
+  lr=as.numeric(0.001),margin=0.5,bs=as.integer(256), epoch=as.integer(50),
+  knn_k=as.integer(5),output_dim=as.integer(8),
+  dropout_prob=as.numeric(0.5),activation_function='leaky_relu')
+```
+
+### Stage 3 (Data Integration): Integrate query cell types with reference cell types
+
+``` r
+corrected_data <- IntegrateData(
+  ref_path="Reference_Data/CyTOF_train.csv",query_path="Query_Data/CITEseq_test.csv",
+  Celltype_col="cluster.orig")
+```

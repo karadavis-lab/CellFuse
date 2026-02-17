@@ -2,12 +2,12 @@
 .Rhistory
 .RData
 .Ruserdata
-docs
+
 # macOS
 .DS_Store
 
 # pkgdown
-docs/
+
 Meta/
 
 # models and outputs

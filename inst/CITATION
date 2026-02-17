@@ -1,0 +1,22 @@
+citHeader("To cite CellFuse in publications:")
+
+citEntry(
+  entry = "article",
+  title = "CellFuse Enables Multi-modal Integration of Single-cell and Spatial Proteomics Data",
+  author = personList(
+    person("Abhishek", "Koladiya"),
+    person("Zinaida", "Good"),
+    person("Sricharan Reddy", "Varra"),
+    person("Sean C", "Bendall"),
+    person("Kara L", "Davis")
+  ),
+  journal = "bioRxiv",
+  year = "2025",
+  doi = "10.1101/2025.07.23.665976",
+  url = "https://www.biorxiv.org/content/10.1101/2025.07.23.665976v1",
+  textVersion = paste(
+    "Koladiya A et al. (2025).",
+    "CellFuse Enables Multi-modal Integration of Single-cell and Spatial Proteomics Data.",
+    "bioRxiv. doi:10.1101/2025.07.23.665976"
+  )
+)

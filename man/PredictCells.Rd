@@ -2,7 +2,7 @@
 % Please edit documentation in R/cellfuse_interface.R
 \name{PredictCells}
 \alias{PredictCells}
-\title{Predict query cell types using trained CellFuse model}
+\title{Predict query cell types using a trained CellFuse model}
 \usage{
 PredictCells(
   dataset_name,
@@ -24,38 +24,68 @@ PredictCells(
 )
 }
 \arguments{
-\item{dataset_name}{Name of the training dataset}
+\item{dataset_name}{Character. Name of training dataset.}
 
-\item{data_dir}{Path to reference data directory}
+\item{data_dir}{Character. Path to reference data directory.}
 
-\item{test_data_dir}{Path to query/test data directory}
+\item{test_data_dir}{Character. Path to query dataset directory.}
 
-\item{test_data}{Name of the test dataset}
+\item{test_data}{Character. Name of query dataset.}
 
-\item{model_dir}{Path to saved model directory}
+\item{model_dir}{Character. Path to saved model directory.}
 
-\item{model_date}{Date when model was created (this helps CellFuse to load correct model)}
+\item{model_date}{Character. Timestamp identifying trained model. YYYY-MM-DD}
 
-\item{device}{'cpu' or 'cuda'}
+\item{device}{Character. \code{"cpu"} or \code{"cuda"}.}
 
-\item{cluster_column}{Column name containing cluster labels}
+\item{cluster_column}{Character. Column containing cluster labels.}
 
-\item{lr}{Learning rate}
+\item{lr}{Numeric. Learning rate.}
 
-\item{margin}{Margin value for contrastive loss}
+\item{margin}{Numeric. Margin for contrastive loss.}
 
-\item{bs}{Batch size}
+\item{bs}{Integer. Batch size.}
 
-\item{epoch}{Number of epochs}
+\item{epoch}{Integer. Number of epochs.}
 
-\item{knn_k}{K for KNN classifier}
+\item{knn_k}{Integer. Number of neighbors for KNN classification.}
 
-\item{output_dim}{Size of embedding output}
+\item{output_dim}{Integer. Embedding dimension.}
 
-\item{dropout_prob}{Dropout probability}
+\item{dropout_prob}{Numeric. Dropout probability.}
 
-\item{activation_function}{Activation function name}
+\item{activation_function}{Character. Activation function.}
+}
+\value{
+Invisibly returns \code{NULL}. Prediction results are written to disk.
 }
 \description{
-Predict query cell types using trained CellFuse model
+Projects query cells into a previously learned embedding space and
+assigns predicted cell type labels using K-nearest neighbors.
+}
+\details{
+This function loads a trained CellFuse model and applies it to
+a query dataset
+
+The query dataset must:
+\itemize{
+\item Contain the same markers used during training
+\item Have rows corresponding to individual cells
+}
+
+Predicted labels and embeddings are saved to the output directory.
+}
+\examples{
+\dontrun{
+PredictCells(
+  dataset_name = "CyTOF",
+  data_dir = "Reference_Data/",
+  test_data_dir = "Query_Data/",
+  model_dir = "Predicted_Data/Saved_model"
+)
+}
+
+}
+\seealso{
+\code{\link{TrainModel}}, \code{\link{IntegrateData}}
 }

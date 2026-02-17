@@ -2,7 +2,7 @@
 % Please edit documentation in R/cellfuse_interface.R
 \name{TrainModel}
 \alias{TrainModel}
-\title{Train CellFuse model using reference cell types}
+\title{Train CellFuse model using labeled reference data}
 \usage{
 TrainModel(
   dataset_name,
@@ -59,6 +59,47 @@ TrainModel(
 
 \item{alpha}{Weight for auxiliary loss or regularization term}
 }
+\value{
+Invisibly returns \code{NULL}. The function writes the following outputs to
+\code{save_path}:
+\itemize{
+\item Trained CellFuse model weights (saved under \code{Saved_model/})
+\item Training and validation performance metrics
+\item A PNG file containing training curves (loss and accuracy vs epoch)
+\item Optional intermediate artifacts required for downstream prediction
+}
+}
 \description{
-Train CellFuse model using reference cell types
+#' @description
+Trains a supervised contrastive learning model on a labeled reference
+proteomics dataset to learn a shared embedding
+space for downstream cross-modality cell type prediction.
+}
+\details{
+The function uses a Python backend (via \pkg{reticulate}) to implement
+supervised contrastive learning. The reference dataset must contain:
+\itemize{
+\item Rows corresponding to individual cells
+\item Columns corresponding to protein markers
+\item A column containing cell type labels (specified by \code{cluster_column})
+}
+The trained model, embeddings, and performance metrics are saved to
+\code{save_path}, including a timestamped folder in
+\code{Saved_model/}.
+
+Model performance is visualized as training and validation loss and accuracy
+across epochs and saved automatically to the specified output directory.
+Early stopping is applied based on validation loss.
+}
+\examples{
+\dontrun{
+TrainModel(
+  dataset_name = "CyTOF",
+  data_dir = "Reference_Data/",
+  save_path = "Predicted_Data/",
+  device = "cpu",
+  cluster_column = "cluster.orig"
+)
+}
+
 }

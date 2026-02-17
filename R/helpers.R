@@ -10,7 +10,7 @@ Normalize_function <- function(target, reference) {
   target <- as.matrix(target)
   reference <- as.matrix(reference)
   target_sig_Normalize_function <- target
-  
+
   if (nrow(target) == nrow(reference)) {
     for (j in 1:ncol(target)) {
       target_sig_Normalize_function[, j] <- sort(reference[, j])[rank(target[, j])]
@@ -35,7 +35,7 @@ Normalize_function <- function(target, reference) {
       target_sig_Normalize_function[, j] <- sort(ref_subset[, j])[rank(target[, j])]
     }
   }
-  
+
   target_sig_Normalize_function[target == 0] <- 1e-5
   return(target_sig_Normalize_function)
 }
@@ -51,33 +51,48 @@ NormalizeData <- function(ct1_rep1_i_sig, file_ref_sig) {
   pca_ref0_rotation <- pca_ref0$rotation
   pca_ref0_pcs <- pca_ref0$x
   pca_tar1_pcs <- as.matrix(ct1_rep1_i_sig) %*% pca_ref0_rotation
-  
+
   pca_tar1_pcs_qt <- pca_tar1_pcs
   for (i in 1:dim(pca_tar1_pcs)[2]) {
     pca_tar1_pcs_qt[, i] <- Normalize_function(pca_tar1_pcs[, i], pca_ref0_pcs[, i])
   }
-  
+
   tar1PCA_QT <- pca_tar1_pcs_qt %*% t(pca_ref0_rotation)
   return(tar1PCA_QT)
 }
 
 
 
-#' Integrate query cell types  with reference cell types 
+#' Integrate query cell types  with reference cell types
 #'
 #' This function normalizes query data to reference data using PCA-space
 #' quantile normalization, performed separately for each cell type.
 #'
-#' @param data A data frame containing marker columns, a `Celltype` column, and a `batch` column
-#' @param markers A character vector of column names corresponding to marker features
-#' @param ref_batch Character value indicating the reference batch label
-#' @param query_batch Character value indicating the query batch label
+#' @param ref_path Path to reference CSV file.
+#' @param query_path Path to predicted query CSV file.
+#' @param Celltype_col Character. Column containing cell-type labels.
 #'
-#' @return A data frame with quantile-normalized marker values and original `Celltype` column
+#' @return
+#' A data.frame containing normalized query marker values.
+#'
+#' @details
+#' Normalization is performed separately per cell type.
+#' Only numeric marker columns are processed.
+#'
+#' @examples
+#' \dontrun{
+#' corrected <- IntegrateData(
+#'   ref_path = "Reference_Data/CyTOF_train.csv",
+#'   query_path = "Query_Data/CITEseq_test.csv",
+#'   Celltype_col = "cluster.orig"
+#' )
+#' }
+#'
+#'
 #' @export
 IntegrateData <- function(ref_path, query_path,Celltype_col) {
   # Define fixed column name for cell type
-  
+
   # Load and label datasets
   refdata <- read.csv(ref_path)
   refdata$batch <- "Reference"

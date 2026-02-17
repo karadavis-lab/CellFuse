@@ -2,7 +2,7 @@
 % Please edit documentation in R/cellfuse_interface.R
 \name{predict_cells_time}
 \alias{predict_cells_time}
-\title{Runtime calculation for predictcell() function}
+\title{Runtime calculation for PredictCells() function}
 \usage{
 predict_cells_time(
   dataset_name,
@@ -56,6 +56,12 @@ predict_cells_time(
 
 \item{activation_function}{Activation function name}
 }
+\value{
+Numeric value indicating runtime (in seconds).
+}
 \description{
-Runtime calculation for predictcell() function
+Evaluates the computational runtime of the CellFuse query prediction step.
+}
+\details{
+Useful for benchmarking CPU/GPU performance and scalability analysis.
 }

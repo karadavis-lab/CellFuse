@@ -1,5 +1,8 @@
 
 # CellFuse
+We are thrilled to announce that **CellFuse** is now published in [*Cancer Research*](https://aacrjournals.org/cancerres/article/doi/10.1158/0008-5472.CAN-25-3699/785629/CellFuse-Enables-Multimodal-Integration-of-Single) 🎉
+
+
 **CellFuse** is an R package for multimodal single-cell and spatial proteomics integration using supervised contrastive deep learning. Single-cell and spatial proteomic technologies capture complementary biological information; however, no single platform measures all modalities within the same cell. Most existing integration methods (e.g., Seurat, Harmony) are optimized for transcriptomic data and assume extensive shared feature overlap, an assumption that often fails for low-dimensional proteomic modalities.
 
 
@@ -64,14 +67,15 @@ library(CellFuse)
 The best way to get started with CellFuse is to explore the package's vignettes and articles (available at https://karadavis-lab.github.io/CellFuse).
 
 ## Citation
+
 ```bibtex
-@article{koladiya2025cellfuse,
-  title={CellFuse Enables Multi-modal Integration of Single-cell and Spatial Proteomics Data},
-  author={Koladiya, Abhishek and Good, Zinaida and Varra, Sricharan Reddy and Bendall, Sean C and Davis, Kara L},
-  journal={bioRxiv},
-  year={2025},
-  publisher={Cold Spring Harbor Laboratory},
-  doi={10.1101/2025.07.23.665976},
-  url={https://www.biorxiv.org/content/10.1101/2025.07.23.665976v1}
+@article{koladiya2026cellfuse,
+  title={CellFuse Enables Multimodal Integration of Single-cell and Spatial Proteomics Data for Systems-level Analysis in Cancer},
+  author={Koladiya, Abhishek and Good, Zinaida and Varra, Sricharan R and Domizi, Pablo and Bendall, Sean C and Davis, Kara L},
+  journal={Cancer Research},
+  year={2026},
+  publisher={American Association for Cancer Research},
+  doi={10.1158/0008-5472.CAN-25-3699},
+  url={https://aacrjournals.org/cancerres/article/doi/10.1158/0008-5472.CAN-25-3699/785629/CellFuse-Enables-Multimodal-Integration-of-Single}
 }
 ```

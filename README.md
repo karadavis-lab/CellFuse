@@ -1,7 +1,6 @@
 
 # CellFuse
-We are thrilled to announce that **CellFuse** is now published in  
-[*Cancer Research*](https://aacrjournals.org/cancerres/article/doi/10.1158/0008-5472.CAN-25-3699/785629/CellFuse-Enables-Multimodal-Integration-of-Single) 🎉
+We are thrilled to announce that **CellFuse** is now published in [*Cancer Research*](https://aacrjournals.org/cancerres/article/doi/10.1158/0008-5472.CAN-25-3699/785629/CellFuse-Enables-Multimodal-Integration-of-Single) 🎉
 
 <img src="man/figures/Cancer_Research.png" width="300" height="100"/>
 

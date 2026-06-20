@@ -3,8 +3,14 @@
 We are thrilled to announce that **CellFuse** is now published in [*Cancer Research*](https://aacrjournals.org/cancerres/article/doi/10.1158/0008-5472.CAN-25-3699/785629/CellFuse-Enables-Multimodal-Integration-of-Single) 🎉
 
 <p align="center">
+  <a href="https://aacrjournals.org/cancerres/article/doi/10.1158/0008-5472.CAN-25-3699/785629/CellFuse-Enables-Multimodal-Integration-of-Single">
+    <img src="man/figures/Cancer_Research.png" width="650"/>
+  </a>
+</p>
+
+<p align="center">
   <a href="https://x.com/CR_AACR/status/2062197880996131288">
-    <img src="man/figures/Cancer_Research.png" width="650" height="420"/>
+    🐦 Featured by Cancer Research on X
   </a>
 </p>
 

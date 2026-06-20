@@ -8,12 +8,6 @@ We are thrilled to announce that **CellFuse** is now published in [*Cancer Resea
   </a>
 </p>
 
-<p align="center">
-  <a href="https://x.com/CR_AACR/status/2062197880996131288">
-    🐦 Featured by Cancer Research on X
-  </a>
-</p>
-
 **CellFuse** is an R package for multimodal single-cell and spatial proteomics integration using supervised contrastive deep learning. Single-cell and spatial proteomic technologies capture complementary biological information; however, no single platform measures all modalities within the same cell. Most existing integration methods (e.g., Seurat, Harmony) are optimized for transcriptomic data and assume extensive shared feature overlap, an assumption that often fails for low-dimensional proteomic modalities.
 
 
